@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1v1 Penalty Soccer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #1e3c72;
+            margin-bottom: 20px;
+        }
+        
+        #gameCanvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            background: linear-gradient(to bottom, #87CEEB 0%, #90EE90 100%);
+            border: 3px solid #333;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .score {
+            text-align: center;
+            color: #2a5298;
+        }
+        
+        .instructions {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .instructions h3 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        #startBtn {
+            background: #28a745;
+            color: white;
+        }
+        
+        #startBtn:hover {
+            background: #218838;
+        }
+        
+        #resetBtn {
+            background: #ffc107;
+            color: black;
+        }
+        
+        #resetBtn:hover {
+            background: #e0a800;
+        }
+        
+        .fullscreen-btn {
+            background: #007bff;
+            color: white;
+        }
+        
+        .fullscreen-btn:hover {
+            background: #0056b3;
+        }
+        
+        .status {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #d9534f;
+            margin-top: 10px;
+            min-height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚽ 1v1 Penalty Soccer</h1>
+        
+        <div class="info">
+            <div class="score">🔵 Player: <span id="playerScore">0</span></div>
+            <div class="score">🔴 AI: <span id="aiScore">0</span></div>
+        </div>
+        
+        <canvas id="gameCanvas" width="400" height="300"></canvas>
+        
+        <div class="instructions">
+            <h3>Instructions:</h3>
+            <p><strong>Attacking:</strong> Click where you want to shoot (aim for corners!)</p>
+            <p><strong>Defending:</strong> Click to position your goalkeeper</p>
+            <p><strong>Goal:</strong> First to 5 goals wins!</p>
+        </div>
+        
+        <div class="buttons">
+            <button id="startBtn" onclick="game.start()">Start Game</button>
+            <button id="resetBtn" onclick="game.reset()">Reset Score</button>
+            <button class="fullscreen-btn" onclick="toggleFullscreen()">Fullscreen</button>
+        </div>
+        
+        <div class="status" id="status">Click "Start Game" to begin!</div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
