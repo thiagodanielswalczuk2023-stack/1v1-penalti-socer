@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1v1 Penalty Soccer</title>
+    <title>4K Penalty Soccer - Professional</title>
     <style>
         * {
             margin: 0;
@@ -11,149 +11,256 @@
             box-sizing: border-box;
         }
         
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            background: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 500px;
+        html, body {
             width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            background: #000;
         }
         
-        h1 {
-            text-align: center;
-            color: #1e3c72;
-            margin-bottom: 20px;
+        #gameContainer {
+            width: 100%;
+            height: 100%;
+            position: relative;
         }
         
-        #gameCanvas {
+        canvas {
             display: block;
             width: 100%;
-            height: auto;
-            background: linear-gradient(to bottom, #87CEEB 0%, #90EE90 100%);
-            border: 3px solid #333;
-            border-radius: 5px;
-            margin-bottom: 20px;
+            height: 100%;
         }
         
-        .info {
+        .ui-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            pointer-events: none;
+        }
+        
+        .score-board {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
-            font-size: 18px;
-            font-weight: bold;
+            align-items: center;
+            margin-bottom: 30px;
+            pointer-events: auto;
+        }
+        
+        .team {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px 30px;
+            border-radius: 10px;
+            color: white;
+        }
+        
+        .flag {
+            font-size: 3em;
+        }
+        
+        .team-info h2 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
         }
         
         .score {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #FFD700;
+        }
+        
+        .center-timer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             text-align: center;
-            color: #2a5298;
+            color: white;
+            pointer-events: auto;
         }
         
-        .instructions {
-            background: #f0f0f0;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            line-height: 1.6;
+        .timer {
+            font-size: 4em;
+            font-weight: bold;
+            color: #FFD700;
         }
         
-        .instructions h3 {
-            color: #1e3c72;
+        .power-meter {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            pointer-events: auto;
+        }
+        
+        .meter-label {
+            font-size: 1.2em;
             margin-bottom: 10px;
         }
         
-        .buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
+        .meter-bar {
+            width: 100%;
+            height: 30px;
+            background: #333;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid #FFD700;
+        }
+        
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00FF00, #FFD700, #FF6600, #FF0000);
+            width: 0%;
+            transition: width 0.1s;
+        }
+        
+        .power-text {
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+        
+        .aim-display {
+            position: absolute;
+            bottom: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 30px;
+            border-radius: 10px;
+            pointer-events: auto;
+            font-size: 1.1em;
+        }
+        
+        .controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px 40px;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            pointer-events: auto;
+        }
+        
+        .control-text {
+            font-size: 1.1em;
+            margin: 5px 0;
         }
         
         button {
-            padding: 10px 20px;
-            font-size: 16px;
+            margin-top: 15px;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            background: #FFD700;
+            color: #000;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-weight: bold;
             transition: all 0.3s;
-            font-weight: bold;
+            pointer-events: auto;
         }
         
-        #startBtn {
-            background: #28a745;
+        button:hover {
+            background: #FFC700;
+            transform: scale(1.05);
+        }
+        
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
             color: white;
-        }
-        
-        #startBtn:hover {
-            background: #218838;
-        }
-        
-        #resetBtn {
-            background: #ffc107;
-            color: black;
-        }
-        
-        #resetBtn:hover {
-            background: #e0a800;
-        }
-        
-        .fullscreen-btn {
-            background: #007bff;
-            color: white;
-        }
-        
-        .fullscreen-btn:hover {
-            background: #0056b3;
-        }
-        
-        .status {
+            padding: 40px 80px;
+            border-radius: 15px;
             text-align: center;
-            font-size: 16px;
-            font-weight: bold;
-            color: #d9534f;
-            margin-top: 10px;
-            min-height: 24px;
+            font-size: 2.5em;
+            pointer-events: auto;
+            z-index: 100;
+            display: none;
+        }
+        
+        .message.show {
+            display: block;
+            animation: messageAnim 0.5s ease-out;
+        }
+        
+        @keyframes messageAnim {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>⚽ 1v1 Penalty Soccer</h1>
-        
-        <div class="info">
-            <div class="score">🔵 Player: <span id="playerScore">0</span></div>
-            <div class="score">🔴 AI: <span id="aiScore">0</span></div>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        <div class="ui-overlay">
+            <div class="score-board">
+                <div class="team" id="playerTeam">
+                    <div class="flag" id="playerFlag">🇧🇷</div>
+                    <div class="team-info">
+                        <h2 id="playerName">Brazil</h2>
+                        <div class="score" id="playerScore">0</div>
+                    </div>
+                </div>
+                <div style="color: white; font-size: 2em; font-weight: bold;">VS</div>
+                <div class="team" id="aiTeam">
+                    <div class="team-info">
+                        <h2 id="aiName">France</h2>
+                        <div class="score" id="aiScore">0</div>
+                    </div>
+                    <div class="flag" id="aiFlag">🇫🇷</div>
+                </div>
+            </div>
+            
+            <div class="power-meter" id="powerMeter" style="display: none;">
+                <div class="meter-label">⚡ POWER</div>
+                <div class="meter-bar">
+                    <div class="meter-fill" id="meterFill"></div>
+                </div>
+                <div class="power-text" id="powerText">0%</div>
+            </div>
+            
+            <div class="aim-display" id="aimDisplay" style="display: none;">
+                <div>📍 Click to confirm shot direction</div>
+                <div id="aimDirection" style="font-size: 2em; margin-top: 10px;">↓</div>
+            </div>
+            
+            <div class="controls" id="controls">
+                <div class="control-text">🎮 CONTROLS:</div>
+                <div class="control-text">MOUSE MOVE = Aim Shot</div>
+                <div class="control-text">SPACE = Increase Power (hold)</div>
+                <div class="control-text">CLICK = Confirm Shot</div>
+                <button onclick="game.start()">🎯 START MATCH</button>
+                <button onclick="game.randomizeCountries()" style="margin-left: 10px;">🌍 NEW COUNTRIES</button>
+            </div>
+            
+            <div class="message" id="message"></div>
         </div>
-        
-        <canvas id="gameCanvas" width="400" height="300"></canvas>
-        
-        <div class="instructions">
-            <h3>Instructions:</h3>
-            <p><strong>Attacking:</strong> Click where you want to shoot (aim for corners!)</p>
-            <p><strong>Defending:</strong> Click to position your goalkeeper</p>
-            <p><strong>Goal:</strong> First to 5 goals wins!</p>
-        </div>
-        
-        <div class="buttons">
-            <button id="startBtn" onclick="game.start()">Start Game</button>
-            <button id="resetBtn" onclick="game.reset()">Reset Score</button>
-            <button class="fullscreen-btn" onclick="toggleFullscreen()">Fullscreen</button>
-        </div>
-        
-        <div class="status" id="status">Click "Start Game" to begin!</div>
     </div>
     
-    <script src="game.js"></script>
+    <script src="penalty-game.js"></script>
 </body>
 </html>
